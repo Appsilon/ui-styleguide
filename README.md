@@ -1,6 +1,13 @@
 # UI Style Guide
 
-The goal of this document is to create beautiful and coherent style guide for Apps, report and charts made by Appsilon.
+The goal of this document is to create beautiful and coherent style guide for Shiny apps, R markdown report and charts made by Appsilon.
+
+Minimum plan is to have:
+* color pallets
+* functions styling ggplots and plotly
+
+Nice to have:
+* ggplot theme
 
 ## What we need?
 
