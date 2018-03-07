@@ -60,4 +60,4 @@ p + geom_point(size = 4, aes(colour = factor(cyl))) +
   scale_color_manual(values = c("#1424C6", "#0099F9","#FA903E")) +
   theme_bw()
 
-ggsave("assets/simple_categoric.png")
+ggsave("assets/simple_categorical.png")
