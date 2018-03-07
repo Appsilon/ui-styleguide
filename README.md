@@ -30,6 +30,10 @@ Ggplots are generated using `scale_*_gradient(low = "#1424C6", high = "#FA903E")
 
 ![Scatter example](assets/scatter.png)
 
+### Categorical
+
+![Categorical scatter](assets/simple_categorical.png)
+
 ## What we considered?
 
 * Coherent with Appsilon branding
