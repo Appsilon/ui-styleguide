@@ -1,16 +1,25 @@
 library(ggplot2)
+library(dplyr)
 
 ## Scatter plot example
 dat <- data.frame(x = rnorm(1000), y = rnorm(1000), z = sample(-20:20, 1000, TRUE))
 p <- ggplot(dat, aes(x, y, colour = z)) + geom_point()
-p + scale_colour_gradient(low = "#1424C6", high = "#FA903E") + theme_bw()
+p + scale_colour_gradient2(mid = "#1424C6", high = "#FA903E", low = "#0099F9") + theme_bw() -> scatter
 
+scatter
 ggsave("assets/scatter.png")
+
+ggplot_build(scatter) -> g
+
+sorted_colors <- data.frame(colors = g$data[[1]]$colour, z = dat$z) %>%
+  distinct() %>%
+  arrange(z) %>%
+  pull(colors)
 
 ## Hex example
 ggplot(data.frame(x = rnorm(10000), y = rnorm(10000)), aes(x = x, y = y)) +
   geom_hex() + coord_fixed() +
-  scale_fill_gradient(low = "#1424C6", high = "#FA903E") + theme_bw()
+  scale_fill_gradientn(colours = sorted_colors) + theme_bw()
 
 ggsave("assets/hex.png")
 
@@ -42,7 +51,7 @@ ggplot(choropleth, aes(long, lat, group = group)) +
   ggtitle("US unemployment rate by county") +
   theme(axis.line = element_blank(), axis.text = element_blank(),
         axis.ticks = element_blank(), axis.title = element_blank()) +
-  scale_fill_gradient(low = "#1424C6", high = "#FA903E") 
+  scale_fill_gradient2(mid = "#1424C6", high = "#FA903E", low = "#0099F9", midpoint = 9) 
 
 ggsave("assets/map.png")
 
