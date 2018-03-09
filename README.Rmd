@@ -1,0 +1,143 @@
+---
+output: rmarkdown::github_document
+---
+
+
+```{r, echo = FALSE, message=FALSE}
+library(ggplot2)
+library(hrbrthemes)
+library(dplyr)
+```
+
+# UI Style Guide
+
+The goal of this document is to create beautiful and coherent style guide for Shiny apps, R markdown report and charts made by Appsilon.
+
+Minimum plan is to have:
+* color pallets
+* functions styling ggplots and plotly
+
+Nice to have:
+* ggplot theme
+
+## What we need?
+
+Color pallets - 2 color pallets: 1 continuous data, 2 categorical data
+Charts theme - ggplot and plotly
+
+### Theme
+
+Since we use Maven Pro as your font, the Maven Pro theme was added to hrbrthemes(). You can download the package with the theme from [Appsilon hrbrthemes fork](https://github.com/Appsilon/hrbrthemes):
+
+`devtools::install_github("Appsilon\hrbrthemes")`
+
+and access theme `theme_ipsum_mp()`
+
+### Maven Pro
+
+```{r fig.retina=2}
+ggplot(mtcars, aes(mpg, wt)) +
+  geom_point() +
+  labs(x = "Fuel effiiency (mpg)", y = "Weight (tons)",
+       title = "Seminal ggplot2 scatterplot example",
+       subtitle = "A plot that is only useful for demonstration purposes",
+       caption = "Brought to you by the letter 'g'") + 
+  theme_ipsum_mp()
+```
+
+### Continous
+
+Scale was created starting from <span style="color:#FA903E">"#FA903E"</span> mid <span style="color:#1424C6">"#1424C6"</span> and finish <span style="color:#0099F9">"#0099F9"</span> based on [kuler](https://color.adobe.com/create/color-wheel/?base=2&rule=Compound&selected=2&name=My%20Color%20Theme&mode=rgb&rgbvalues=0.07764705882352939,0.139242791599822,0.776470588235294,0.23058823529411765,0.2610750121227878,0.5764705882352941,0,0.6,0.9764705882352941,0.9794117647058823,0.5660503410702158,0.24485294117647058,0.776470588235294,0.2813068745571549,0.07764705882352939&swatchOrder=0,1,2,3,4) of compound colors with the center on Appsilon blue <span style="color:#0099F9">"#0099F9"</span>.
+
+#### Plot examples
+
+Goal: check how viridis examples are represented using poropose continous scale.
+
+Ggplots are generated using `scale_*_gradient(low = "#1424C6", high = "#FA903E")`
+
+```{r fig.retina=2, echo = FALSE}
+## Scatter plot example
+dat <- data.frame(x = rnorm(1000), y = rnorm(1000), z = sample(-20:20, 1000, TRUE))
+ggplot(dat, aes(x, y, colour = z)) + geom_point() + theme_ipsum_mp() -> scatter_default
+
+scatter_default +
+  scale_colour_gradient2(low = "#3B4393", high = "#FA903E", mid = "#0099F9") -> scatter_ygb
+
+scatter_ygb
+
+scatter_default +
+  scale_colour_gradient2(mid = "#1424C6", high = "#FA903E", low = "#0099F9") -> scatter_ybd
+
+scatter_ybd
+
+ggplot_build(scatter_ybd) -> scatter_ybd_build
+ggplot_build(scatter_ygb) -> scatter_ygb_build
+
+sorted_colors <- data.frame(colors_ybd = scatter_ybd_build$data[[1]]$colour, 
+                            colors_ygb = scatter_ygb_build$data[[1]]$colour,
+                            z = dat$z) %>%
+  distinct() %>%
+  arrange(z)
+
+## Hex example
+ggplot(data.frame(x = rnorm(10000), y = rnorm(10000)), aes(x = x, y = y)) +
+  geom_hex() + coord_fixed() +
+  theme_ipsum_mp() -> default_hex
+
+default_hex +
+  scale_fill_gradientn(colours = sorted_colors$colors_ybd)
+  
+default_hex +
+  scale_fill_gradientn(colours = sorted_colors$colors_ygb)
+```
+
+```{r fig.retina=2, echo = FALSE}
+unemp <- read.csv("http://datasets.flowingdata.com/unemployment09.csv",
+                  header = FALSE, stringsAsFactors = FALSE)
+names(unemp) <- c("id", "state_fips", "county_fips", "name", "year",
+                  "?", "?", "?", "rate")
+unemp$county <- tolower(gsub(" County, [A-Z]{2}", "", unemp$name))
+unemp$county <- gsub("^(.*) parish, ..$","\\1", unemp$county)
+unemp$state <- gsub("^.*([A-Z]{2}).*$", "\\1", unemp$name)
+
+county_df <- map_data("county", projection = "albers", parameters = c(39, 45))
+
+names(county_df) <- c("long", "lat", "group", "order", "state_name", "county")
+county_df$state <- state.abb[match(county_df$state_name, tolower(state.name))]
+county_df$state_name <- NULL
+
+state_df <- map_data("state", projection = "albers", parameters = c(39, 45))
+
+choropleth <- merge(county_df, unemp, by = c("state", "county"))
+choropleth <- choropleth[order(choropleth$order), ]
+
+ggplot(choropleth, aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = rate), colour = alpha("white", 1 / 2), size = 0.2) +
+  geom_polygon(data = state_df, colour = "white", fill = NA) +
+  coord_fixed() +
+  theme_minimal() +
+  ggtitle("US unemployment rate by county") +
+  theme_ipsum_mp() +
+  theme(axis.line = element_blank(), axis.text = element_blank(),
+        axis.ticks = element_blank(), axis.title = element_blank()) -> map_default
+
+map_default +
+ scale_fill_gradientn(colours = sorted_colors$colors_ybd)
+
+map_default +
+    scale_fill_gradientn(colours = sorted_colors$colors_ygb)
+```
+
+
+### Categorical
+
+![Categorical scatter](assets/simple_categorical.png)
+
+## What we considered?
+
+* Coherent with Appsilon branding
+* Print friendly
+* Robust to colorblindness
+* Pretty
+
+## What we chose?
