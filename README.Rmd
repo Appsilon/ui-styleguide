@@ -147,6 +147,29 @@ map_default +
 
 ### Categorical
 
+```{r, fig.retina=2, echo = FALSE}
+
+ggplot(mpg, aes(class)) +
+  geom_bar(aes(fill = factor(trans))) +
+  theme_ipsum_mp() +
+  scale_fill_manual(values = c(appsilon_cividis(5), appsilon_plasma(5)), limits = unique(mpg$trans))
+
+df2 <- data.frame(week = c(1:10, 1:10),
+                  value = c(c(4,5,6,3,5,7,9,6,3,4), c(10, 18, 12, 7, 12, 9, 9, 7, 14, 16)),
+                  label = rep(c("label1", "label2"), each = 10))
+
+colors_cividis <- appsilon_viridis(2)
+ggplot(data = df2, aes(x = week, y = value, group = label, colour = label)) +
+  geom_line(linetype = "dashed", size = 1.2)+
+  geom_point(size = 3) +
+  theme_ipsum_mp() -> base_line
+
+base_line +
+  scale_colour_manual(values = colors_cividis)
+
+base_line +
+  scale_colour_manual(values = appsilon_plasma(2))
+```
 
 
 ## What we considered?

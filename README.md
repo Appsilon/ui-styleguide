@@ -66,6 +66,8 @@ Goal: check how viridis examples are represented using poropose continous scale.
 
 ### Categorical
 
+<img src="README_files/figure-markdown_github/unnamed-chunk-8-1.png" width="672" /><img src="README_files/figure-markdown_github/unnamed-chunk-8-2.png" width="672" /><img src="README_files/figure-markdown_github/unnamed-chunk-8-3.png" width="672" />
+
 What we considered?
 -------------------
 
