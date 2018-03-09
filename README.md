@@ -58,8 +58,6 @@ Ggplots are generated using `scale_*_gradient(low = "#1424C6", high = "#FA903E")
 
 ### Categorical
 
-![Categorical scatter](assets/simple_categorical.png)
-
 What we considered?
 -------------------
 

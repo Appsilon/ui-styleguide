@@ -61,12 +61,12 @@ dat <- data.frame(x = rnorm(1000), y = rnorm(1000), z = sample(-20:20, 1000, TRU
 ggplot(dat, aes(x, y, colour = z)) + geom_point() + theme_ipsum_mp() -> scatter_default
 
 scatter_default +
-  scale_colour_gradient2(low = "#3B4393", high = "#FA903E", mid = "#0099F9") -> scatter_ygb
+  scale_colour_gradient2(low = "#15354a", high = "#fcd73d", mid = "#0099F9") -> scatter_ygb
 
 scatter_ygb
 
 scatter_default +
-  scale_colour_gradient2(mid = "#1424C6", high = "#FA903E", low = "#0099F9") -> scatter_ybd
+  scale_colour_gradient(low = "#1424C6", high = "#FA903E") -> scatter_ybd
 
 scatter_ybd
 
@@ -131,7 +131,7 @@ map_default +
 
 ### Categorical
 
-![Categorical scatter](assets/simple_categorical.png)
+
 
 ## What we considered?
 
