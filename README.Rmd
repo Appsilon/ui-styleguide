@@ -45,15 +45,35 @@ ggplot(mtcars, aes(mpg, wt)) +
   theme_ipsum_mp()
 ```
 
-### Continous
+### Continous Palettes
 
-Scale was created starting from <span style="color:#FA903E">"#FA903E"</span> mid <span style="color:#1424C6">"#1424C6"</span> and finish <span style="color:#0099F9">"#0099F9"</span> based on [kuler](https://color.adobe.com/create/color-wheel/?base=2&rule=Compound&selected=2&name=My%20Color%20Theme&mode=rgb&rgbvalues=0.07764705882352939,0.139242791599822,0.776470588235294,0.23058823529411765,0.2610750121227878,0.5764705882352941,0,0.6,0.9764705882352941,0.9794117647058823,0.5660503410702158,0.24485294117647058,0.776470588235294,0.2813068745571549,0.07764705882352939&swatchOrder=0,1,2,3,4) of compound colors with the center on Appsilon blue <span style="color:#0099F9">"#0099F9"</span>.
+#### Appsilon viridis
+
+```{r echo = FALSE, fig.height=0.5}
+par(mar=c(0,0,0,0))
+appsilon_viridis <- colorRampPalette(c("#15354a",  "#0099F9", "#fcd73d"))
+plot(rep(1, 50), col = (appsilon_viridis(50)), pch = 15, cex = 10, axes = 0, ann=FALSE, ylim = c(0,1), main = "a")
+```
+
+#### Appsilon cividis
+
+```{r echo = FALSE, fig.height=0.5}
+par(mar=c(0,0,0,0))
+appsilon_cividis <- colorRampPalette(c('#15354A','#163A52','#173E5A','#184362','#19476A','#194C72','#1A517A','#1A5683','#1A5B8C','#1A6094','#1A659D','#1A6AA6','#196FAF','#1874B8','#1779C1','#157ECA','#1384D3','#1089DD','#0C8EE6','#0694EF','#0099F9','#419CF1','#5C9EE9','#6FA1E0','#7EA4D8','#8BA7D0','#97A9C7','#A2ACBF','#ABAFB7','#B4B3AE','#BCB6A5','#C4B99D','#CBBC94','#D2BF8B','#D9C382','#DFC678','#E5C96E','#EBCD63','#F1D058','#F7D44B','#FCD73D'))
+plot(rep(1,50), col = (appsilon_cividis(50)), pch = 15, cex = 10, axes = 0, ann=FALSE, ylim = c(0,1))
+```
+
+#### Appsilon plasma
+
+```{r echo = FALSE, fig.height=0.5}
+par(mar=c(0,0,0,0))
+appsilon_plasma <- colorRampPalette(c('#1424C6','#2E26C3','#3E27C0','#4A29BD','#542BBA','#5D2DB7','#6530B4','#6D32B1','#7334AE','#7A37AB','#8039A8','#863CA5','#8B3EA2','#91419F','#96449C','#9B4699','#9F4996','#A44C93','#A84E90','#AD518D','#B15489','#B55786','#B95A83','#BD5D80','#C1607D','#C56379','#C96676','#CD6873','#D16B6F','#D46E6C','#D87168','#DB7465','#DF7761','#E27A5D','#E67E59','#E98155','#ED8451','#F0874D','#F38A48','#F78D43','#FA903E'))
+plot(rep(1,50), col = (appsilon_plasma(50)), pch = 15, cex = 10, axes = 0, ann=FALSE, ylim = c(0.99,1))
+```
 
 #### Plot examples
 
 Goal: check how viridis examples are represented using poropose continous scale.
-
-Ggplots are generated using `scale_*_gradient(low = "#1424C6", high = "#FA903E")`
 
 ```{r fig.retina=2, echo = FALSE}
 ## Scatter plot example
@@ -61,23 +81,13 @@ dat <- data.frame(x = rnorm(1000), y = rnorm(1000), z = sample(-20:20, 1000, TRU
 ggplot(dat, aes(x, y, colour = z)) + geom_point() + theme_ipsum_mp() -> scatter_default
 
 scatter_default +
-  scale_colour_gradient2(low = "#15354a", high = "#fcd73d", mid = "#0099F9") -> scatter_ygb
-
-scatter_ygb
+  scale_colour_gradientn(colours = appsilon_viridis(100))
 
 scatter_default +
-  scale_colour_gradient(low = "#1424C6", high = "#FA903E") -> scatter_ybd
+  scale_colour_gradientn(colours = appsilon_cividis(100))
 
-scatter_ybd
-
-ggplot_build(scatter_ybd) -> scatter_ybd_build
-ggplot_build(scatter_ygb) -> scatter_ygb_build
-
-sorted_colors <- data.frame(colors_ybd = scatter_ybd_build$data[[1]]$colour, 
-                            colors_ygb = scatter_ygb_build$data[[1]]$colour,
-                            z = dat$z) %>%
-  distinct() %>%
-  arrange(z)
+scatter_default +
+  scale_colour_gradientn(colours = appsilon_plasma(100))
 
 ## Hex example
 ggplot(data.frame(x = rnorm(10000), y = rnorm(10000)), aes(x = x, y = y)) +
@@ -85,10 +95,13 @@ ggplot(data.frame(x = rnorm(10000), y = rnorm(10000)), aes(x = x, y = y)) +
   theme_ipsum_mp() -> default_hex
 
 default_hex +
-  scale_fill_gradientn(colours = sorted_colors$colors_ybd)
+  scale_fill_gradientn(colours = appsilon_viridis(100))
+
+default_hex +
+  scale_fill_gradientn(colours = appsilon_cividis(100))
   
 default_hex +
-  scale_fill_gradientn(colours = sorted_colors$colors_ygb)
+  scale_fill_gradientn(colours = appsilon_plasma(100))
 ```
 
 ```{r fig.retina=2, echo = FALSE}
@@ -122,10 +135,13 @@ ggplot(choropleth, aes(long, lat, group = group)) +
         axis.ticks = element_blank(), axis.title = element_blank()) -> map_default
 
 map_default +
- scale_fill_gradientn(colours = sorted_colors$colors_ybd)
+  scale_fill_gradientn(colours = appsilon_viridis(100))
 
 map_default +
-    scale_fill_gradientn(colours = sorted_colors$colors_ygb)
+  scale_fill_gradientn(colours = appsilon_cividis(100))
+  
+map_default +
+  scale_fill_gradientn(colours = appsilon_plasma(100))
 ```
 
 
