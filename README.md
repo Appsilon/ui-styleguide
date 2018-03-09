@@ -4,14 +4,14 @@ UI Style Guide
 
 The goal of this document is to create beautiful and coherent style guide for Shiny apps, R markdown report and charts made by Appsilon.
 
-Minimum plan is to have: \* color pallets \* functions styling ggplots and plotly
+Minimum plan is to have: \* color palettss \* functions styling ggplots and plotly
 
 Nice to have: \* ggplot theme
 
 What we need?
 -------------
 
-Color pallets - 2 color pallets: 1 continuous data, 2 categorical data Charts theme - ggplot and plotly
+Color palletss - 2 color paletss: 1 continuous data, 2 categorical data Charts theme - ggplot and plotly
 
 ### Theme
 
@@ -51,7 +51,7 @@ ggplot(mtcars, aes(mpg, wt)) +
 
 #### Plot examples
 
-Goal: check how viridis examples are represented using poropose continous scale.
+Goal: check how viridis examples are represented using propose continuous scale.
 
 <img src="README_files/figure-markdown_github/unnamed-chunk-6-1.png" width="672" /><img src="README_files/figure-markdown_github/unnamed-chunk-6-2.png" width="672" /><img src="README_files/figure-markdown_github/unnamed-chunk-6-3.png" width="672" /><img src="README_files/figure-markdown_github/unnamed-chunk-6-4.png" width="672" /><img src="README_files/figure-markdown_github/unnamed-chunk-6-5.png" width="672" /><img src="README_files/figure-markdown_github/unnamed-chunk-6-6.png" width="672" />
 

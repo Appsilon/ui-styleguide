@@ -14,7 +14,7 @@ library(dplyr)
 The goal of this document is to create beautiful and coherent style guide for Shiny apps, R markdown report and charts made by Appsilon.
 
 Minimum plan is to have:
-* color pallets
+* color palettss
 * functions styling ggplots and plotly
 
 Nice to have:
@@ -22,7 +22,7 @@ Nice to have:
 
 ## What we need?
 
-Color pallets - 2 color pallets: 1 continuous data, 2 categorical data
+Color palletss - 2 color paletss: 1 continuous data, 2 categorical data
 Charts theme - ggplot and plotly
 
 ### Theme
@@ -73,7 +73,7 @@ plot(rep(1,50), col = (appsilon_plasma(50)), pch = 15, cex = 10, axes = 0, ann=F
 
 #### Plot examples
 
-Goal: check how viridis examples are represented using poropose continous scale.
+Goal: check how viridis examples are represented using propose continuous scale.
 
 ```{r fig.retina=2, echo = FALSE}
 ## Scatter plot example
